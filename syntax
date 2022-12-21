@@ -1,0 +1,298 @@
+# all departments
+query {
+  departments{
+    id
+    departmentName
+    createdAt
+    updatedAt
+  }
+}
+
+#particular department
+query {
+  department(id: 2){
+    id
+    departmentName
+    createdAt
+    updatedAt
+  }
+}
+
+#all employees
+query {
+  employees {
+   id
+    employeeName
+    employeeEmail
+    createdAt
+    updatedAt
+  }
+}
+
+#specific employee
+query {
+  employee(id: 3) {
+   id
+    employeeName
+    employeeEmail
+    createdAt
+    updatedAt
+  }
+}
+
+# department with its employees
+query {
+  departments {
+    id
+    departmentName
+    createdAt
+    updatedAt
+    employees {
+      id
+      employeeName
+      createdAt
+      updatedAt
+      employeeEmail
+    }
+  }
+}
+
+# methods in query_type.rb
+query {
+  departmentCount
+  employeeCount
+}
+
+
+
+# create employee
+mutation {
+  createEmployee (input: {
+    employeeName: "Hardik"
+    employeeEmail: "bekariya@gamil.com"
+    departmentId: 3
+  }) {
+    employee {
+      id
+      employeeName
+      employeeEmail
+    }
+    errors
+  }
+}
+
+
+# update employee
+mutation {
+  updateEmployee (input: {
+    id: 9
+    employeeName: "Hardik"
+    employeeEmail: "vekariya@gamil.com"
+  }) {
+    employee {
+      id
+      employeeName
+      employeeEmail
+    }
+    errors
+  }
+}
+
+
+# delete employee
+mutation {
+  deleteEmployee (input: {
+    id: 8
+  }) {
+    employee
+    errors
+  }
+}
+
+
+# Aliases
+query {
+  project_aliase: projects {
+    id
+    projectName
+  }
+}
+
+
+# Fragments
+query
+{
+  first_employee: employee(id: 1) {
+    ...EmployeesFragment
+  }
+  second_employee: employee(id: 2) {
+    ...EmployeesFragment
+  }
+}
+
+fragment EmployeesFragment on Employee {
+  id
+  departmentId
+  projects {
+    id
+    projectName
+  }
+}
+
+
+# variables inside fragments
+query ($value: ID = 2)
+{
+  first_employee: employee(id: 1) {
+    ...EmployeesFragment
+  }
+  second_employee: employee(id: 2) {
+    ...EmployeesFragment
+  }
+}
+
+fragment EmployeesFragment on Employee {
+  id
+  departmentId
+  projects {
+    id
+    projectName
+    createdAt
+    updatedAt
+  }
+  project(id: $value) {
+    id
+    projectName
+  }
+}
+
+
+# operation name
+
+#operation_type operation_name {
+#}
+query EmployeesDetails($value: ID = 2)
+{
+  first_employee: employee(id: 1) {
+    ...EmployeesFragment
+  }
+  second_employee: employee(id: 2) {
+    ...EmployeesFragment
+  }
+}
+
+query EmployeesLongDetails($value: ID = 1)
+{
+  first_employee: employee(id: 1) {
+    ...EmployeesFragment
+    ids
+  }
+  second_employee: employee(id: 2) {
+    ...EmployeesFragment
+  }
+}
+
+fragment EmployeesFragment on Employee {
+  id
+  departmentId
+  projects {
+    id
+    projectName
+    createdAt
+    updatedAt
+  }
+  project(id: $value) {
+    id
+    projectName
+  }
+}
+
+
+# errors
+{
+  "errors": [
+    {
+      "message": "Field 'ids' doesn't exist on type 'Employee'",
+      "locations": [
+        {
+          "line": 15,
+          "column": 5
+        }
+      ],
+      "path": [
+        "query EmployeesLongDetails",
+        "first_employee",
+        "ids"
+      ],
+      "extensions": {
+        "code": "undefinedField",
+        "typeName": "Employee",
+        "fieldName": "ids"
+      }
+    }
+  ]
+}
+
+
+# variables
+query EmployeesDetails ($value: ID!) {
+  employee(id: $value) {
+    id
+    departmentId
+    projects {
+      id
+      projectName
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+#query variables
+{
+  "value": 1
+}
+
+
+
+
+
+
+# deault variables
+query EmployeesDetails ($value: ID = 1) {
+  employee(id: $value) {
+    id
+    departmentId
+    projects {
+      id
+      projectName
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+
+
+
+
+#Directive
+query EmployeesDetails ($value: ID = 1, $boolean_value: Boolean!) {
+  employee(id: $value) {
+    id
+    departmentId
+    projects @include(if: $boolean_value) {
+      id
+      projectName
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+
+{
+  "boolean_value": true
+}
+
+
