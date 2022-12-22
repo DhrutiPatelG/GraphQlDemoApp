@@ -296,3 +296,39 @@ query EmployeesDetails ($value: ID = 1, $boolean_value: Boolean!) {
 }
 
 
+
+
+# create user
+mutation {
+  createUser(input: {
+    name: "User",
+    authProvider: {
+      credentials: {
+        email: "dhruti@example.com",
+        passwordDigest: "123456"
+      }
+  	}
+  }) {
+    id
+    name
+    email
+  }
+}
+
+
+# generate token
+mutation {
+  signinUser(
+    input: {
+      credentials: {
+        email: "dhruti@example.com", 
+        passwordDigest: "123456"
+      }
+    }) {
+    token
+    user {
+      id
+      name
+    }
+  }
+}

@@ -8,5 +8,7 @@ module Types
     field :delete_employee, mutation: Mutations::DeleteEmployee
     field :create_project, mutation: Mutations::CreateProjectMutation
     field :update_project, mutation: Mutations::UpdateProject
+    field :create_user, mutation: Mutations::CreateUser
+    field :signin_user, mutation: Mutations::SignInUser
   end
 end
