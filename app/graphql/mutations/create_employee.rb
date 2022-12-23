@@ -4,21 +4,14 @@ class Mutations::CreateEmployee < Mutations::BaseMutation
   argument :department_id, Integer, required: true
 
   field :employee, Types::EmployeeType, null: false
-  field :errors, [String], null: false
+  type Types::EmployeeType
 
   def resolve(employee_name:, employee_email:, department_id:)
-    emp = Employee.new(employee_email: employee_email, employee_name: employee_name, department_id: department_id)
-    
-    if emp.save
-      {
-        employee: emp,
-        errors: []
-      }
-    else
-      { 
-        employee: nil,
-        errors: emp.errors.full_messages
-      }
-    end
+    Employee.create!(
+      employee_email: employee_email,
+      employee_name: employee_name,
+      department_id: department_id,
+      user: context[:current_user]
+    )
   end
 end

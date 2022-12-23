@@ -13,7 +13,7 @@ module Mutations
       User.create!(
         name: name,
         email: auth_provider&.[](:credentials)&.[](:email),
-        password_digest: auth_provider&.[](:credentials)&.[](:password_digest)
+        password: auth_provider&.[](:credentials)&.[](:password)
       )
     end
   end

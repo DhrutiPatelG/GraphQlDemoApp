@@ -72,12 +72,9 @@ mutation {
     employeeEmail: "bekariya@gamil.com"
     departmentId: 3
   }) {
-    employee {
-      id
-      employeeName
-      employeeEmail
-    }
-    errors
+    id
+    employeeName
+    employeeEmail
   }
 }
 
@@ -305,7 +302,7 @@ mutation {
     authProvider: {
       credentials: {
         email: "dhruti@example.com",
-        passwordDigest: "123456"
+        password: "123456"
       }
   	}
   }) {
@@ -316,13 +313,13 @@ mutation {
 }
 
 
-# generate token
+# generate token or sign_in user
 mutation {
   signinUser(
     input: {
       credentials: {
         email: "dhruti@example.com", 
-        passwordDigest: "123456"
+        password: "123456"
       }
     }) {
     token

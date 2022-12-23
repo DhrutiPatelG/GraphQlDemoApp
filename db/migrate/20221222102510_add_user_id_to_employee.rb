@@ -1,0 +1,7 @@
+class AddUserIdToEmployee < ActiveRecord::Migration[6.0]
+  def change
+    change_table :employees do |t|
+      t.references :user, foreign_key: true
+    end
+  end
+end
